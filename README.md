@@ -35,7 +35,9 @@
 
 - GCC (or any C compiler)
 - linux/WSL environment
-- 
+
+
+
 -Im making this project only for UNIX like systems and on Windows* only through WSL (windows subsystem for Linux)
 -It won’t compile properly in a pure Windows environment (<unistd.h> or <sys/wait.h> not yet used, but planned).
 
