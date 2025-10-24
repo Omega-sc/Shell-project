@@ -12,7 +12,7 @@
 
  Accepts user input  
  Loops continuously until manually exited  
- Prints (echoes) back what the user types  
+ *Enable input tokenization through strtok(), and parsing of user input..
 
  Does *not yet* execute system commands  
  No piping, redirection, or background tasks  
@@ -28,6 +28,7 @@
 | cd, exit built-ins
 | Piping & redirection
 
+**| Input parsing, Basic string handling  ----has been implemented as of 24th October,2025
 
 
 *Requirements
