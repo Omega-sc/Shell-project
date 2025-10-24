@@ -62,6 +62,59 @@ int main() {
         for (int j = 0; args[j] != NULL; j++) {
             printf("arg[%d]: %s\n", j, args[j]);
         }
+
+        if (strcasecmp(cmd, "Exit") == 0) {
+            break;
+        }
+
+
+
+
+    //lets us begin some actual shell stuff now..
+    // we will use fork() to create a new process, that is identical to the one already running. lets call the original process the parent, amd the new one is called the child.
+    // these to processes are identical, except for the return value of the fork() call.
+    // using execvp we make allow the child to be able to run other programs.
+    //the parent meanwhile waits for the child to complete using wait(NULL)
+    // if the execution of execvp is successful, the child process is replaced by the new program, and doesnt return the. 
+    //otherwise we will configure it to print an error message and exit (using perror()))
+
+
+        pid_t pid = fork();
+
+
+        if (pid<0) {
+            perror("fork failed");
+        }
+
+
+        else if (pid==0){
+            execvp(args[0], args);
+            perror("execvp failed");
+            exit(1);
+        }
+
+
+
+        else {
+            wait(NULL);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     printf("Exiting shell. Goodbye!\n");
