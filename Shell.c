@@ -58,17 +58,12 @@ int main() {
         }
         args[i] = NULL;   // ------- this is very important for the execvp to know where the arguments end
 
-        // to check the tokenization worked properly, let's print the tokens one by one
-        for (int j = 0; args[j] != NULL; j++) {
-            printf("arg[%d]: %s\n", j, args[j]);
-        }
+        // to check the tokenization worked properly, let's print the tokens.
+        // ill make this section a comment now, as we no longer need the user argument to be printed.
 
-        if (strcasecmp(cmd, "Exit") == 0) {
-            break;
-        }
-
-
-
+        /*for (int j = 0; args[j] != NULL; j++) {
+        printf("arg[%d]: %s\n", j, args[j]);
+        }*/
 
     //lets us begin some actual shell stuff now..
     // we will use fork() to create a new process, that is identical to the one already running. lets call the original process the parent, amd the new one is called the child.
@@ -78,46 +73,46 @@ int main() {
     // if the execution of execvp is successful, the child process is replaced by the new program, and doesnt return the. 
     //otherwise we will configure it to print an error message and exit (using perror()))
 
-
-        pid_t pid = fork();
-
-
-        if (pid<0) {
-            perror("fork failed");
+        //using built in commands to handle stuff like cwd
+        
+        if (strcasecmp(cmd, "Exit") == 0) {
+            break;
         }
 
 
+        //Now lets add functionality to handle some commonly used built-in commands like 'cd'.
+
+
+        if(strcmp(args[0], "cd")==0) {
+            if (args[1]==NULL){
+                fprintf(stderr, "cd: missing argument\n");
+            }
+            else {
+                if (chdir(args[1])!=0){
+                    perror("cd failed");
+                }
+                 else {
+                    printf("Changed directory to %s\n", args[1]);
+                 }
+            }
+        continue;
+        }
+
+        pid_t pid = fork();
+        if (pid<0) {
+            perror("fork failed");
+        }
         else if (pid==0){
             execvp(args[0], args);
             perror("execvp failed");
             exit(1);
         }
-
-
-
         else {
             wait(NULL);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     printf("Exiting shell. Goodbye!\n");
-
     return 0;
+
 }     
